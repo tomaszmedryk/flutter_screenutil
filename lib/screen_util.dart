@@ -2,6 +2,7 @@
  * Created by 李卓原 on 2018/9/29.
  * email: zhuoyuan93@gmail.com
  */
+
 part of flutter_screenutil;
 
 class ScreenUtil {
@@ -35,9 +36,15 @@ class ScreenUtil {
   }) {
     _instance = ScreenUtil._()
       ..uiSize = designSize
-      .._orientation = orientation
-      .._screenWidth = constraints.maxWidth
-      .._screenHeight = constraints.maxHeight;
+      .._orientation = orientation;
+
+    if (orientation == Orientation.portrait || kIsWeb) {
+      _instance._screenWidth = constraints.maxWidth;
+      _instance._screenHeight = constraints.maxHeight;
+    } else {
+      _instance._screenWidth = constraints.maxHeight;
+      _instance._screenHeight = constraints.maxWidth;
+    }
 
     var window = WidgetsBinding.instance?.window ?? ui.window;
     _instance._pixelRatio = window.devicePixelRatio;
